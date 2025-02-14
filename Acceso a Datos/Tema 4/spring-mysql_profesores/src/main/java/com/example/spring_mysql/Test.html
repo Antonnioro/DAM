@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Profesor</title>
+    <script>
+        async function obtenerProfesores() {
+            try {
+                const response = await fetch('http://localhost:9090/api/profesores');
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                const data = await response.json();
+                document.getElementById('resultado').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error al obtener profesor:', error);
+            }
+        }
+
+        async function obtenerProfesorPorId() {
+            const id = document.getElementById('profesorId').value;
+            try {
+                const response = await fetch('http://localhost:9090/api/profesores/' + id);
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                const data = await response.json();
+                document.getElementById('resultado').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error al obtener profesor:', error);
+            }
+        }
+
+        async function guardarProfesor() {
+            const nombre = document.getElementById('nombre').value;
+            const apellidos = document.getElementById('apellidos').value;
+            const direccion = document.getElementById('direccion').value;
+            const ciudad = document.getElementById('ciudad').value;
+
+            try {
+                const response = await fetch('http://localhost:9090/api/profesores', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nombre, apellidos, direccion, ciudad })
+                });
+
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                const data = await response.json();
+                document.getElementById('resultado').innerText = 'Profesor guardado: ' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error al guardar profesor:', error);
+            }
+        }
+
+        async function eliminarProfesor() {
+            const id = document.getElementById('alumnoIdProfesor').value;
+            try {
+                const response = await fetch('http://localhost:9090/api/profesores/' + id, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                document.getElementById('resultado').innerText = 'Profesor con ID ' + id + ' eliminado.';
+            } catch (error) {
+                console.error('Error al eliminar profesor:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Gestión de Profesores</h1>
+
+    <h2>Obtener todos los profesores</h2>
+    <button onclick="obtenerProfesores()">Obtener Todos</button>
+
+    <h2>Obtener un profesor por ID</h2>
+    <input type="text" id="profesorId" placeholder="ID del Profesor">
+    <button onclick="obtenerProfesorPorId()">Obtener Profesor</button>
+
+    <h2>Guardar un nuevo profesor</h2>
+    <form onsubmit="event.preventDefault(); guardarProfesor();">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre"><br>
+        <label for="apellidos">Apellidos:</label><br>
+        <input type="text" id="apellidos" name="apellidos"><br>
+        <label for="direccion">Dirección:</label><br>
+        <input type="text" id="direccion" name="direccion"><br>
+        <label for="ciudad">Ciudad:</label><br>
+        <input type="text" id="ciudad" name="ciudad"><br>
+        <input type="submit" value="Guardar Profesor">
+    </form>
+
+    <h2>Eliminar un profesor por ID</h2>
+    <input type="text" id="profesorIdEliminar" placeholder="ID del Profesor">
+    <button onclick="eliminarProfesor()">Eliminar Profesor</button>
+
+    <h2>Resultado</h2>
+    <pre id="resultado"></pre>
+</body>
+</html>
