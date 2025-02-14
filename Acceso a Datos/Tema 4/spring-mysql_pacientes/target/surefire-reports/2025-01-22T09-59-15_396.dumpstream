@@ -1,0 +1,5 @@
+# Created at 2025-01-22T09:59:20.304
+Boot Manifest-JAR contains absolute paths in classpath 'E:\Carpeta Eclipse\spring-mysql_pacientes\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
