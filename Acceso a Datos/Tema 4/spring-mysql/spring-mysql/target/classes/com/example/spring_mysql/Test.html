@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Alumnos</title>
+    <script>
+        async function obtenerAlumnos() {
+            try {
+                const response = await fetch('http://localhost:9090/api/alumnos');
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                const data = await response.json();
+                document.getElementById('resultado').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error al obtener alumnos:', error);
+            }
+        }
+
+        async function obtenerAlumnoPorId() {
+            const id = document.getElementById('alumnoId').value;
+            try {
+                const response = await fetch('http://localhost:9090/api/alumnos/' + id);
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                const data = await response.json();
+                document.getElementById('resultado').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error al obtener alumno:', error);
+            }
+        }
+
+        async function guardarAlumno() {
+            const nombre = document.getElementById('nombre').value;
+            const apellidos = document.getElementById('apellidos').value;
+            const direccion = document.getElementById('direccion').value;
+            const ciudad = document.getElementById('ciudad').value;
+
+            try {
+                const response = await fetch('http://localhost:9090/api/alumnos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nombre, apellidos, direccion, ciudad })
+                });
+
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                const data = await response.json();
+                document.getElementById('resultado').innerText = 'Alumno guardado: ' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error al guardar alumno:', error);
+            }
+        }
+
+        async function eliminarAlumno() {
+            const id = document.getElementById('alumnoIdEliminar').value;
+            try {
+                const response = await fetch('http://localhost:9090/api/alumnos/' + id, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) throw new Error('Error en la solicitud: ' + response.statusText);
+                document.getElementById('resultado').innerText = 'Alumno con ID ' + id + ' eliminado.';
+            } catch (error) {
+                console.error('Error al eliminar alumno:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Gestión de Alumnos</h1>
+
+    <h2>Obtener todos los alumnos</h2>
+    <button onclick="obtenerAlumnos()">Obtener Todos</button>
+
+    <h2>Obtener un alumno por ID</h2>
+    <input type="text" id="alumnoId" placeholder="ID del Alumno">
+    <button onclick="obtenerAlumnoPorId()">Obtener Alumno</button>
+
+    <h2>Guardar un nuevo alumno</h2>
+    <form onsubmit="event.preventDefault(); guardarAlumno();">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre"><br>
+        <label for="apellidos">Apellidos:</label><br>
+        <input type="text" id="apellidos" name="apellidos"><br>
+        <label for="direccion">Dirección:</label><br>
+        <input type="text" id="direccion" name="direccion"><br>
+        <label for="ciudad">Ciudad:</label><br>
+        <input type="text" id="ciudad" name="ciudad"><br>
+        <input type="submit" value="Guardar Alumno">
+    </form>
+
+    <h2>Eliminar un alumno por ID</h2>
+    <input type="text" id="alumnoIdEliminar" placeholder="ID del Alumno">
+    <button onclick="eliminarAlumno()">Eliminar Alumno</button>
+
+    <h2>Resultado</h2>
+    <pre id="resultado"></pre>
+</body>
+</html>
