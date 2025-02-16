@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Municipios de la Provincia</title>
+		<script src="script.js" defer></script>
+		<link rel="stylesheet" href="estilo.css">
+	</head>
+	<body onload="cargarMunicipios()">
+		<h1>Municipios de la Provincia</h1>
+		<select id="provincias" onchange="cargarMunicipios()">
+			<option value="28">Madrid</option>
+			<option value="08">Barcelona</option>
+			<option value="41">Sevilla</option>
+			<option value="29">Málaga</option>
+		</select>
+		<table id="tabla"></table>
+	</body>
+</html>
