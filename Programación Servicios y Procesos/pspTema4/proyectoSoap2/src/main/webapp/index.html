@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta del Tiempo - AEMET</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <h1>Consulta del Tiempo en España</h1>
+    <label for="ciudad">Selecciona una ciudad:</label>
+    <select id="ciudad" onchange="consultarTiempo()">
+        <option value="28079">Madrid</option>
+        <option value="08019">Barcelona</option>
+        <option value="29067">Málaga</option>
+        <option value="41091">Sevilla</option>
+    </select>
+    <div id="resultado"></div>
+</body>
+</html>
